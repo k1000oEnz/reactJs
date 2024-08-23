@@ -14,34 +14,35 @@
     <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
     <script>
-        ReactDOM.createRoot(document.getElementById('root')).render(
-            React.createElement( //Creacion de nodo
-                'section',  //Elemento
-                {className: "card"}, //Propiedades
-                [ //Contenido / Hijos
-                    React.createElement(
-                        "h2", 
-                        {className: "card-header"}, 
-                        "Acciones"
-                    ),
-                    React.createElement(
-                        "button", 
-                        {className: "btn btn-primary"}, 
-                        "like"
-                    ),
-                    React.createElement(
-                        "button", 
-                        {className: "btn btn-danger"}, 
-                        "dislike"
-                    ),
-                    React.createElement(
-                        "button", 
-                        {className: "btn btn-dark"}, 
-                        "sad"
-                    )
-                ]
+        // Lambda Function
+        const Button = (color, children) => React.createElement('button', {className: 'btn btn-' + color}, children)
+        function BtnGroup(...args){
+            return React.createElement('div', {className: 'card-body'}, ...args)
+        }
+        class Section{
+
+            constructor(title, children){
+                this.title = title,
+                this.children = children
+            }
+            render(){
+            const header = React.createElement('h2', {className: 'card-header'}, this.title)
+            const section = React.createElement('section', {className: 'card'},
+                [header, body]
             )
-            )
+            return section
+        }
+        }
+        
+        const section = new Section('Acciones', 
+                <BtnGroup>{[
+                    Button('primary', 'like'),
+                    Button('danger', 'dislike'),
+                    Button('dark', 'sad')
+                ]}</BtnGroup>
+                )
+        //Remder ROOT
+        ReactDOM.createRoot(document.getElementById('root')).render(section.render())
     </script>
 </body>
 </html>
